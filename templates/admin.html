@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Group Contributions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Admin: Manage Contributions</h1>
+    <nav>
+        <a href="/">Home</a> | <a href="/leaderboard">Leaderboard</a> | <a href="/history">History</a> | <a href="/logout">Logout</a>
+    </nav>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Amount (₦)</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for id, name, amount, date, status in contributions %}
+        <tr>
+            <td>{{ id }}</td>
+            <td>{{ name }}</td>
+            <td>{{ amount|float|round(2) }}</td>
+            <td>{{ date }}</td>
+            <td>{{ 'Pending' if status == 0 else 'Approved' if status == 1 else 'Rejected' }}</td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="contribution_id" value="{{ id }}">
+                    <button type="submit" name="action" value="approve" {% if status == 1 %}disabled{% endif %}>Approve</button>
+                    <button type="submit" name="action" value="reject" {% if status == 2 %}disabled{% endif %}>Reject</button>
+                    <button type="submit" name="action" value="pending" {% if status == 0 %}disabled{% endif %}>Pending</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if not contributions %}
+        <tr>
+            <td colspan="6">No contributions yet.</td>
+        </tr>
+        {% endif %}
+    </table>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="flash">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

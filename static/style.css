@@ -1,0 +1,176 @@
+/* static/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 40px; /* Adds space around edges */
+    font-family: 'Poppins', sans-serif;
+    color: #e0e0e0; /* Light gray for text */
+    min-height: 100vh;
+    background: #1e2a44; /* Dark blue base */
+    position: relative;
+    overflow-x: hidden;
+    animation: fadeIn 1s ease-in;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect x="0" y="150" width="50" height="50" fill="%232e3b5e" opacity="0.7"/><rect x="60" y="120" width="40" height="80" fill="%233b4a77" opacity="0.7"/><rect x="110" y="100" width="60" height="100" fill="%234a5c99" opacity="0.7"/><rect x="180" y="130" width="50" height="70" fill="%232e3b5e" opacity="0.7"/><rect x="240" y="110" width="70" height="90" fill="%233b4a77" opacity="0.7"/><rect x="320" y="140" width="60" height="60" fill="%234a5c99" opacity="0.7"/><path d="M360 180 L380 160 L400 180 H360" fill="%237b4dff" opacity="0.7"/></svg>') repeat-x;
+    background-size: 400px 200px;
+    animation: moveCity 25s linear infinite;
+    z-index: -1;
+    opacity: 0.3; /* Subtle background */
+}
+
+h1 {
+    font-family: 'Bungee', cursive;
+    color: #7b4dff; /* Vibrant purple */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.8s ease-out;
+    margin-bottom: 20px;
+}
+
+nav {
+    background: rgba(30, 42, 68, 0.9); /* Dark blue semi-transparent */
+    padding: 15px 25px;
+    border-bottom: 2px solid #4a5c99; /* Mid-blue border */
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: #a3bffa; /* Light blue */
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 700;
+    transition: color 0.3s, transform 0.3s;
+}
+
+nav a:hover {
+    color: #7b4dff; /* Purple on hover */
+    transform: scale(1.05);
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto 20px;
+    padding: 25px;
+    background: rgba(46, 59, 94, 0.9); /* Slightly lighter blue */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+input, button {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+input {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    border: 1px solid #4a5c99;
+}
+
+button {
+    background: #7b4dff; /* Purple button */
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px #7b4dff;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto 20px;
+    border-collapse: collapse;
+    background: rgba(46, 59, 94, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 1s ease-in;
+}
+
+th, td {
+    border: 1px solid #4a5c99;
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background: rgba(30, 42, 68, 0.9);
+    color: #a3bffa;
+    font-family: 'Bungee', cursive;
+}
+
+tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.flash { color: #a3bffa; font-weight: 700; }
+.error { color: #ff6b6b; /* Soft red for errors */ }
+
+.welcome {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #e0e0e0;
+    animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #7b4dff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: #7b4dff; }
+}
+
+@keyframes moveCity {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Custom style for signup link */
+.signup-link {
+    color: #ff6b6b; /* Pinkish-red for signup */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.signup-link:hover {
+    color: #a3bffa; /* Light blue on hover */
+}

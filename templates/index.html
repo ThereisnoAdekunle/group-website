@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Contributions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Group Contributions</h1>
+    <div class="welcome">Welcome, {{ current_user.name }}!</div>
+    <nav>
+        <a href="/leaderboard">Leaderboard</a> |
+        <a href="/history">History</a> |
+        {% if current_user.is_admin %}
+        <a href="/admin">Admin</a> |
+        {% endif %}
+        <a href="/logout">Logout</a>
+    </nav>
+    <h2>Record a Contribution</h2>
+    <form method="POST">
+        <input type="number" name="amount" placeholder="Amount (₦)" step="0.01" required>
+        <input type="date" name="date" required>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Latest Activity</h2>
+    <p>March 9, 2025: Project started!</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ 'flash' if category == 'message' else 'error' }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Group Contributions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <nav>
+        <a href="/">Back to Home</a> | <a href="/logout">Logout</a>
+    </nav>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Total Contribution (₦)</th>
+        </tr>
+        {% for rank, name, total in leaderboard %}
+        <tr>
+            <td>{{ rank }}</td>
+            <td>{{ name }}</td>
+            <td>{{ total|float|round(2) if total else 0.00 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

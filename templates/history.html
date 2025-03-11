@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribution History - Group Contributions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Your Contribution History</h1>
+    <nav>
+        <a href="/">Back to Home</a> | <a href="/leaderboard">Leaderboard</a> | <a href="/logout">Logout</a>
+    </nav>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Amount (₦)</th>
+            <th>Status</th>
+        </tr>
+        {% for amount, date, status in history %}
+        <tr>
+            <td>{{ date }}</td>
+            <td>{{ amount|float|round(2) }}</td>
+            <td>{{ 'Pending' if status == 0 else 'Approved' if status == 1 else 'Rejected' }}</td>
+        </tr>
+        {% endfor %}
+        {% if not history %}
+        <tr>
+            <td colspan="3">No contributions yet.</td>
+        </tr>
+        {% endif %}
+    </table>
+</body>
+</html>
