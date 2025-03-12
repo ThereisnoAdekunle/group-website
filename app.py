@@ -35,37 +35,28 @@ def load_user(user_id):
 def init_db():
     conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'group.db'))
     c = conn.cursor()
-    
-    # Create tables
     c.execute('''CREATE TABLE IF NOT EXISTS users 
                  (id INTEGER PRIMARY KEY, name TEXT, email TEXT UNIQUE, password_hash TEXT, is_admin INTEGER DEFAULT 0)''')
     c.execute('''CREATE TABLE IF NOT EXISTS contributions 
                  (id INTEGER PRIMARY KEY, user_id INTEGER, amount REAL, date TEXT, status INTEGER DEFAULT 0, 
                  FOREIGN KEY (user_id) REFERENCES users(id))''')
-    
-    # Add is_admin if missing
     c.execute("PRAGMA table_info(users)")
     if 'is_admin' not in [col[1] for col in c.fetchall()]:
         c.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
-    
-    # Replace approved with status if needed
     c.execute("PRAGMA table_info(contributions)")
     columns = [col[1] for col in c.fetchall()]
     if 'approved' in columns and 'status' not in columns:
         c.execute("ALTER TABLE contributions RENAME COLUMN approved TO status")
     elif 'status' not in columns:
         c.execute("ALTER TABLE contributions ADD COLUMN status INTEGER DEFAULT 0")
-    
-    # Set westkhalifahninety7@gmail.com as admin
     c.execute("SELECT id, is_admin FROM users WHERE email = ?", ('westkhalifahninety7@gmail.com',))
     user = c.fetchone()
     if user and user[1] != 1:
         c.execute("UPDATE users SET is_admin = 1 WHERE email = ?", ('westkhalifahninety7@gmail.com',))
     elif not user:
-        default_password = generate_password_hash('admin123')  # Change this later
+        default_password = generate_password_hash('admin123')
         c.execute("INSERT OR IGNORE INTO users (name, email, password_hash, is_admin) VALUES (?, ?, ?, 1)", 
                   ('Admin', 'westkhalifahninety7@gmail.com', default_password))
-    
     conn.commit()
     conn.close()
 
@@ -109,15 +100,15 @@ def register():
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'group.db'))
+    c = conn.cursor()
+    
     if request.method == 'POST':
         amount = float(request.form['amount'])
         date = request.form['date']
-        conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'group.db'))
-        c = conn.cursor()
         c.execute("INSERT INTO contributions (user_id, amount, date, status) VALUES (?, ?, ?, 0)", 
                   (current_user.id, amount, date))
         conn.commit()
-        conn.close()
 
         msg = MIMEText(f"Hi {current_user.name},\n\nYou submitted ₦{amount} on {date}. It’s pending admin approval.\n\nThanks for your support!")
         msg['Subject'] = 'Contribution Submitted'
@@ -136,7 +127,13 @@ def home():
 
         flash('Contribution submitted! Awaiting admin approval.')
         return redirect(url_for('home'))
-    return render_template('index.html')
+
+    # Calculate total approved contributions
+    c.execute("SELECT SUM(amount) FROM contributions WHERE status = 1")
+    total_contributed = c.fetchone()[0] or 0.0
+    conn.close()
+    
+    return render_template('index.html', total_contributed=total_contributed)
 
 @app.route('/leaderboard')
 @login_required
@@ -206,4 +203,4 @@ def logout():
 if __name__ == '__main__':
     init_db()
     port = int(os.getenv('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port)

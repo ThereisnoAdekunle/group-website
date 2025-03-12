@@ -17,6 +17,9 @@
         {% endif %}
         <a href="/logout">Logout</a>
     </nav>
+    <div class="total-contributed">
+        <h2>Total Contributed: ₦{{ total_contributed|float|round(2) }}</h2>
+    </div>
     <h2>Record a Contribution</h2>
     <form method="POST">
         <input type="number" name="amount" placeholder="Amount (₦)" step="0.01" required>

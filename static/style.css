@@ -3,11 +3,11 @@
 
 body {
     margin: 0;
-    padding: 40px; /* Adds space around edges */
+    padding: 40px;
     font-family: 'Poppins', sans-serif;
-    color: #e0e0e0; /* Light gray for text */
+    color: #e0e0e0;
     min-height: 100vh;
-    background: #1e2a44; /* Dark blue base */
+    background: #1e2a44;
     position: relative;
     overflow-x: hidden;
     animation: fadeIn 1s ease-in;
@@ -24,27 +24,27 @@ body::before {
     background-size: 400px 200px;
     animation: moveCity 25s linear infinite;
     z-index: -1;
-    opacity: 0.3; /* Subtle background */
+    opacity: 0.3;
 }
 
 h1 {
     font-family: 'Bungee', cursive;
-    color: #7b4dff; /* Vibrant purple */
+    color: #7b4dff;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     animation: slideIn 0.8s ease-out;
     margin-bottom: 20px;
 }
 
 nav {
-    background: rgba(30, 42, 68, 0.9); /* Dark blue semi-transparent */
+    background: rgba(30, 42, 68, 0.9);
     padding: 15px 25px;
-    border-bottom: 2px solid #4a5c99; /* Mid-blue border */
+    border-bottom: 2px solid #4a5c99;
     border-radius: 5px;
     margin-bottom: 20px;
 }
 
 nav a {
-    color: #a3bffa; /* Light blue */
+    color: #a3bffa;
     text-decoration: none;
     margin: 0 20px;
     font-weight: 700;
@@ -52,7 +52,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #7b4dff; /* Purple on hover */
+    color: #7b4dff;
     transform: scale(1.05);
 }
 
@@ -60,7 +60,7 @@ form {
     max-width: 500px;
     margin: 0 auto 20px;
     padding: 25px;
-    background: rgba(46, 59, 94, 0.9); /* Slightly lighter blue */
+    background: rgba(46, 59, 94, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
@@ -82,7 +82,7 @@ input {
 }
 
 button {
-    background: #7b4dff; /* Purple button */
+    background: #7b4dff;
     color: #fff;
     font-weight: 700;
     cursor: pointer;
@@ -125,7 +125,7 @@ tr:nth-child(even) {
 }
 
 .flash { color: #a3bffa; font-weight: 700; }
-.error { color: #ff6b6b; /* Soft red for errors */ }
+.error { color: #ff6b6b; }
 
 .welcome {
     text-align: center;
@@ -136,6 +136,23 @@ tr:nth-child(even) {
     white-space: nowrap;
     overflow: hidden;
     border-right: 2px solid #7b4dff;
+}
+
+.total-contributed {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(30, 42, 68, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.total-contributed h2 {
+    font-family: 'Bungee', cursive;
+    color: #a3bffa;
+    margin: 0;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Animations */
@@ -166,11 +183,11 @@ tr:nth-child(even) {
 
 /* Custom style for signup link */
 .signup-link {
-    color: #ff6b6b; /* Pinkish-red for signup */
+    color: #ff6b6b;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .signup-link:hover {
-    color: #a3bffa; /* Light blue on hover */
+    color: #a3bffa;
 }
