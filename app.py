@@ -35,20 +35,25 @@ def load_user(user_id):
 def init_db():
     conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'group.db'))
     c = conn.cursor()
+    
     c.execute('''CREATE TABLE IF NOT EXISTS users 
                  (id INTEGER PRIMARY KEY, name TEXT, email TEXT UNIQUE, password_hash TEXT, is_admin INTEGER DEFAULT 0)''')
     c.execute('''CREATE TABLE IF NOT EXISTS contributions 
                  (id INTEGER PRIMARY KEY, user_id INTEGER, amount REAL, date TEXT, status INTEGER DEFAULT 0, 
                  FOREIGN KEY (user_id) REFERENCES users(id))''')
+    
     c.execute("PRAGMA table_info(users)")
-    if 'is_admin' not in [col[1] for col in c.fetchall()]:
+    columns = [col[1] for col in c.fetchall()]
+    if 'is_admin' not in columns:
         c.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+    
     c.execute("PRAGMA table_info(contributions)")
     columns = [col[1] for col in c.fetchall()]
     if 'approved' in columns and 'status' not in columns:
         c.execute("ALTER TABLE contributions RENAME COLUMN approved TO status")
     elif 'status' not in columns:
         c.execute("ALTER TABLE contributions ADD COLUMN status INTEGER DEFAULT 0")
+    
     c.execute("SELECT id, is_admin FROM users WHERE email = ?", ('westkhalifahninety7@gmail.com',))
     user = c.fetchone()
     if user and user[1] != 1:
@@ -57,6 +62,7 @@ def init_db():
         default_password = generate_password_hash('admin123')
         c.execute("INSERT OR IGNORE INTO users (name, email, password_hash, is_admin) VALUES (?, ?, ?, 1)", 
                   ('Admin', 'westkhalifahninety7@gmail.com', default_password))
+    
     conn.commit()
     conn.close()
 
@@ -128,7 +134,6 @@ def home():
         flash('Contribution submitted! Awaiting admin approval.')
         return redirect(url_for('home'))
 
-    # Calculate total approved contributions
     c.execute("SELECT SUM(amount) FROM contributions WHERE status = 1")
     total_contributed = c.fetchone()[0] or 0.0
     conn.close()
